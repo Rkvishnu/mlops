@@ -1,0 +1,10 @@
+artifact_location: file:///Users/vishnurathore/Documents/mlops/mlruns/0/models/m-f45f2ceeb7aa43d5b43f5bbdb3524ded/artifacts
+creation_timestamp: 1772308065569
+experiment_id: '0'
+last_updated_timestamp: 1772308067044
+model_id: m-f45f2ceeb7aa43d5b43f5bbdb3524ded
+model_type: null
+name: model
+source_run_id: 5b447593932e48f59f1a8dcf23a5d8bf
+status: 2
+status_message: null

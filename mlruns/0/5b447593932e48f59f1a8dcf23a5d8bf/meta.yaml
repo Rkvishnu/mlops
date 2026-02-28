@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/vishnurathore/Documents/mlops/mlruns/0/5b447593932e48f59f1a8dcf23a5d8bf/artifacts
+end_time: 1772308067046
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5b447593932e48f59f1a8dcf23a5d8bf
+run_name: mercurial-sow-435
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772308065552
+status: 3
+tags: []
+user_id: vishnurathore

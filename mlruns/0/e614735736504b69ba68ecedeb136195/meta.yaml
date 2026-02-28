@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/vishnurathore/Documents/mlops/mlruns/0/e614735736504b69ba68ecedeb136195/artifacts
+end_time: 1772308596989
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e614735736504b69ba68ecedeb136195
+run_name: inquisitive-wolf-620
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772308595503
+status: 3
+tags: []
+user_id: vishnurathore
