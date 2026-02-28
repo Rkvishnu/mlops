@@ -1,0 +1,8 @@
+# Deploy using the image from GHCR (no local build).
+# Usage: docker compose -f docker-compose.deploy.yml pull
+#        docker compose -f docker-compose.deploy.yml up -d
+services:
+  api:
+    image: ghcr.io/rkvishnu/mlops:latest
+    ports:
+      - "8000:8000"

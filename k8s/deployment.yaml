@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlops-api
+  labels:
+    app: mlops-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlops-api
+  template:
+    metadata:
+      labels:
+        app: mlops-api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/rkvishnu/mlops:latest
+          ports:
+            - containerPort: 8000
+          # imagePullSecrets required if image is private; create with:
+          # kubectl create secret docker-registry ghcr.io --docker-server=ghcr.io --docker-username=USER --docker-password=TOKEN
+          # then add: imagePullSecrets: [{ name: ghcr.io }]
