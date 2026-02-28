@@ -17,18 +17,24 @@ DATA_DIR.mkdir(exist_ok=True)
 MODEL_DIR.mkdir(exist_ok=True)
 
 def main():
+    import os
+    # In CI, keep MLflow under workspace to avoid permission/path issues
+    if os.environ.get("CI"):
+        os.environ.setdefault("MLFLOW_TRACKING_URI", str(Path.cwd() / "mlruns"))
+
     X, y = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    with mlflow.start_run():
-        model = RandomForestClassifier(n_estimators=10, random_state=42)
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
-        acc = accuracy_score(y_test, y_pred)
+    model = RandomForestClassifier(n_estimators=10, random_state=42)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    acc = accuracy_score(y_test, y_pred)
 
-        mlflow.log_param("n_estimators", 10)
-        mlflow.log_metric("accuracy", acc)
-        mlflow.sklearn.log_model(model, name="model", input_example=X_train[:1])
+    if not os.environ.get("CI"):
+        with mlflow.start_run():
+            mlflow.log_param("n_estimators", 10)
+            mlflow.log_metric("accuracy", acc)
+            mlflow.sklearn.log_model(model, name="model", input_example=X_train[:1])
 
     path = MODEL_DIR / "model.joblib"
     joblib.dump(model, path)
