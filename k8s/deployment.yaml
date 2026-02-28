@@ -20,6 +20,25 @@ spec:
           image: ghcr.io/rkvishnu/mlops:latest
           ports:
             - containerPort: 8000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 5
           # imagePullSecrets required if image is private; create with:
           # kubectl create secret docker-registry ghcr.io --docker-server=ghcr.io --docker-username=USER --docker-password=TOKEN
           # then add: imagePullSecrets: [{ name: ghcr.io }]

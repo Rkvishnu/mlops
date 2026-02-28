@@ -24,10 +24,10 @@ jobs:
         run: pip install -r requirements.txt ruff
 
       - name: Lint
-        run: ruff check . --exclude mlruns
+        run: ruff check app scripts --exclude mlruns
 
       - name: Train
-        run: python train.py
+        run: python scripts/train.py
 
       - name: Upload model
         uses: actions/upload-artifact@v4

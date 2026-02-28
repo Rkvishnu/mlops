@@ -1,0 +1,24 @@
+# Optional. Requires an Ingress controller (e.g. minikube addons enable ingress).
+# Then: kubectl apply -f k8s/ingress.yaml
+# Access via host (add to /etc/hosts or use nip.io): mlops.local or mlops.192.168.49.2.nip.io
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mlops-api
+  namespace: mlops
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mlops.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mlops-api
+                port:
+                  number: 8000
+  # tls: []   # add a secret name for TLS if you have one

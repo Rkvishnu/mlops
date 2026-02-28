@@ -1,7 +1,8 @@
 """
-Basic training script: load data, train model, save artifact.
-Run: python train.py
+Train model, save artifact, optionally log to MLflow.
+Run from repo root: python scripts/train.py
 """
+import os
 from pathlib import Path
 
 import joblib
@@ -11,16 +12,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-DATA_DIR = Path("data")
-MODEL_DIR = Path("models")
+_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = _ROOT / "data"
+MODEL_DIR = _ROOT / "models"
 DATA_DIR.mkdir(exist_ok=True)
 MODEL_DIR.mkdir(exist_ok=True)
 
+
 def main():
-    import os
-    # In CI, keep MLflow under workspace to avoid permission/path issues
     if os.environ.get("CI"):
-        os.environ.setdefault("MLFLOW_TRACKING_URI", str(Path.cwd() / "mlruns"))
+        os.environ.setdefault("MLFLOW_TRACKING_URI", str(_ROOT / "mlruns"))
 
     X, y = load_iris(return_X_y=True)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -39,6 +40,7 @@ def main():
     path = MODEL_DIR / "model.joblib"
     joblib.dump(model, path)
     print(f"Accuracy: {acc:.4f}, model saved to {path}")
+
 
 if __name__ == "__main__":
     main()

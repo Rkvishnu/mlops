@@ -5,8 +5,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY serve.py .
+COPY app/ app/
 COPY models/ models/
 
 EXPOSE 8000
-CMD ["uvicorn", "serve:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.serve:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,28 +1,26 @@
 """
 Copy a logged model from MLflow into models/model.joblib (for deploy).
-Usage:
-  From MLflow server: MLFLOW_TRACKING_URI=http://localhost:5000 python promote_model.py RUN_ID
-  From local backup:  python promote_model.py /path/to/mlflow/model/dir
-  (Model dir = folder with MLmodel + model.pkl, e.g. mlflow-artifacts-backup/0/models/m-xxx/artifacts)
+Run from repo root: python scripts/promote_model.py RUN_ID  or  python scripts/promote_model.py /path/to/model/dir
 """
 import os
 import sys
 import tempfile
 from pathlib import Path
 
-# Avoid indefinite hang on artifact download (seconds)
 os.environ.setdefault("MLFLOW_HTTP_REQUEST_TIMEOUT", "60")
 
 import joblib
 from mlflow.sklearn import load_model
 from mlflow.tracking import MlflowClient
 
-MODEL_DIR = Path("models")
+_ROOT = Path(__file__).resolve().parent.parent
+MODEL_DIR = _ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True)
+
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python promote_model.py RUN_ID  or  python promote_model.py /path/to/model/dir", file=sys.stderr)
+        print("Usage: python scripts/promote_model.py RUN_ID  or  python scripts/promote_model.py /path/to/model/dir", file=sys.stderr)
         sys.exit(1)
     arg = sys.argv[1].strip().replace("runs:/", "")
     local_dir = Path(arg).resolve()
@@ -43,6 +41,7 @@ def main():
     path = MODEL_DIR / "model.joblib"
     joblib.dump(model, path)
     print(f"Promoted model to {path}", flush=True)
+
 
 if __name__ == "__main__":
     main()
